@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Predictor</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="/vite.svg">
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">Weather Predictor</h1>
+    
+    <!-- Search Form -->
+    <form id="search-form" class="search-form">
+      <div class="search-container">
+        <input 
+          type="text" 
+          id="city-input" 
+          placeholder="Enter city name..." 
+          class="search-input"
+        >
+        <button type="submit" class="search-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+      </div>
+    </form>
+    
+    <!-- Loading Spinner -->
+    <div id="loading" class="loading-container hidden">
+      <div class="spinner"></div>
+      <p class="loading-text">Fetching weather data...</p>
+    </div>
+    
+    <!-- Error Message -->
+    <div id="error" class="error-container hidden">
+      <p id="error-message"></p>
+      <p class="error-hint">Please check the city name and try again.</p>
+    </div>
+    
+    <!-- Initial State -->
+    <div id="initial-state" class="initial-state">
+      <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="cloud-icon">
+        <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
+      </svg>
+      <h2 class="initial-title">Weather Forecast</h2>
+      <p class="initial-text">Enter a city name to get the current weather information</p>
+    </div>
+    
+    <!-- Weather Display -->
+    <div id="weather" class="weather-card hidden">
+      <!-- Header -->
+      <div class="weather-header">
+        <div>
+          <h2 id="location" class="location"></h2>
+          <p id="date" class="date"></p>
+        </div>
+        <div id="weather-icon-container">
+          <!-- Weather icon will be inserted here -->
+        </div>
+      </div>
+      
+      <!-- Weather Details -->
+      <div class="weather-body">
+        <div class="temperature-container">
+          <p id="temperature" class="temperature"></p>
+          <p id="description" class="description"></p>
+        </div>
+        
+        <div class="weather-grid">
+          <div class="weather-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="item-icon feels-like-icon">
+              <path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"></path>
+            </svg>
+            <div>
+              <p class="item-label">Feels Like</p>
+              <p id="feels-like" class="item-value"></p>
+            </div>
+          </div>
+          
+          <div class="weather-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="item-icon humidity-icon">
+              <path d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z"></path>
+              <path d="M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97"></path>
+            </svg>
+            <div>
+              <p class="item-label">Humidity</p>
+              <p id="humidity" class="item-value"></p>
+            </div>
+          </div>
+          
+          <div class="weather-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="item-icon wind-icon">
+              <path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"></path>
+              <path d="M9.6 4.6A2 2 0 1 1 11 8H2"></path>
+              <path d="M12.6 19.4A2 2 0 1 0 14 16H2"></path>
+            </svg>
+            <div>
+              <p class="item-label">Wind Speed</p>
+              <p id="wind-speed" class="item-value"></p>
+            </div>
+          </div>
+          
+          <div class="weather-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="item-icon pressure-icon">
+              <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
+            </svg>
+            <div>
+              <p class="item-label">Pressure</p>
+              <p id="pressure" class="item-value"></p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Hourly Forecast (24 hours) -->
+        <div class="forecast-section">
+          <h3 class="forecast-title">24-Hour Forecast</h3>
+          <div id="hourly-forecast-container" class="hourly-forecast">
+            <!-- Hourly forecast items will be inserted here -->
+          </div>
+        </div>
+        
+        <!-- 5-Day Forecast -->
+        <div class="forecast-section">
+          <h3 class="forecast-title">5-Day Forecast</h3>
+          <div id="daily-forecast-container" class="daily-forecast">
+            <!-- Daily forecast items will be inserted here -->
+          </div>
+        </div>
+      </div>
+      
+      <!-- Footer -->
+      <div class="weather-footer">
+        <p>Data provided by OpenWeatherMap</p>
+      </div>
+    </div>
+    
+    <footer class="footer">
+      <p>© 2025 Weather Predictor App</p>
+    </footer>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>
