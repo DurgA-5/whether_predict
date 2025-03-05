@@ -85,6 +85,35 @@ body {
   color: white;
 }
 
+/* Suggestions Dropdown */
+#suggestions-container {
+  position: absolute;
+  top: calc(100% + 0.25rem);
+  width: 100%;
+  background-color: white;
+  border: 1px solid #90caf9;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.suggestion-item {
+  padding: 0.75rem;
+  cursor: pointer;
+  border-bottom: 1px solid #e0f0f0;
+  transition: background-color 0.2s ease;
+}
+
+.suggestion-item:last-child {
+  border-bottom: none;
+}
+
+.suggestion-item:hover {
+  background-color: #e0f7fa;
+}
+
 /* Loading Spinner */
 .loading-container {
   text-align: center;
@@ -378,4 +407,36 @@ body {
 /* Utility Classes */
 .hidden {
   display: none;
+}
+/* Suggestions Container */
+#suggestions-container {
+  position: absolute;
+  top: calc(100% + 0.25rem);
+  width: 100%;
+  background: white;
+  border: 1px solid #ccc;
+  border-top: none;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+/* Suggestions List */
+.suggestions-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Suggestion Item */
+.suggestion-item {
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+/* Highlighted Suggestion */
+.suggestion-item.highlighted {
+  background: #f0f0f0;
 }
